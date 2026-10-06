@@ -1,79 +1,99 @@
 # Real Estate Plot Layout
 
-A responsive web application built with **Next.js** and **Tailwind CSS** that showcases an interactive real estate plot blueprint layout with real-time status tracking and a floating filter card.
+A responsive real estate plot layout application built using Next.js and Tailwind CSS.
 
-Live Reference: [https://real-estate-layout-coral.vercel.app/](https://real-estate-layout-coral.vercel.app/)
+## Features
 
----
+Interactive real estate layout map with plot information.
 
-## 📌 Features
+Users can zoom in, zoom out.
 
-1. **Interactive Blueprint Layout Map**:
-   - Blueprint layout map image with SVG plot overlays mapped to exact geographical coordinates.
-   - Zoom in, zoom out, and desktop/touch drag-to-pan capabilities.
-   - Plots filtered out are dimmed smoothly to highlight matching plots.
+Plots can be filtered by Available, Booked, and Sold status.
 
-2. **Status Color Filters**:
-   - 🟢 **Available**: Green button (`bg-green-600`) with real-time count.
-   - 🟡 **Booked**: Amber/Orange button (`bg-amber-500`) with real-time count.
-   - 🔴 **Sold**: Red button (`bg-red-600`) with real-time count.
-   - Centered above the map with clean solid backgrounds and white text.
+Each plot shows its plot number, status, square feet, rate, and total cost when hovered.
 
-3. **Compact Hover Information Card**:
-   - Hovering on any plot shows a clean rectangular card (zero border-radius) with:
-     - `Plot : {number}`
-     - Status Badge
-     - `Total Sq Ft: {size}`
-     - `Rate: ₹{rate}` (without `/sq.ft`)
-     - `Total Cost: ₹{cost}`
+Users can filter plots by square feet and maximum cost.
 
-4. **Floating Filter Card**:
-   - Clicking the floating **Filter** button opens the filter card:
-     - **Square Feet**: 4 preset buttons (`0 - 540.00`, `≤ 1040.00`, `≤ 1540.00`, `≤ 2040.00`).
-     - **Max Cost**: Budget range slider with formatted markers (₹30 L, ₹80 L, ₹1.4 Cr).
-     - **Matching Counter**: Live display of matching plots (`X / 218`).
-     - **Reset & Close**: Quick reset and close buttons.
+The filter panel shows the number of matching plots.
 
----
+Users can reset or close the filter panel.
 
-## 📁 Modular Project Structure
+## Project Structure
 
-```text
-real-estate-layout/
-├── app/
-│   ├── globals.css          # Minimal Tailwind CSS setup
-│   ├── layout.js            # Root layout
-│   └── page.js              # Main dashboard page
-├── components/
-│   ├── Header.js            # Top header component
-│   ├── Legend.js            # Centered solid status filter buttons
-│   ├── FilterPanel.js       # Floating filter popup card (4 sqft presets, cost slider)
-│   └── PlotMap.js           # Blueprint layout map with SVG overlays, zoom & hover card
-├── data/
-│   └── plotsData.js         # Single dataset file with 218 plots and presets
-├── public/
-│   └── layout-map.jpg       # Blueprint layout map image
-├── next.config.mjs          # JavaScript Next.js configuration
-├── package.json
-└── README.md
-```
+app
 
----
+globals.css  
+Global CSS and Tailwind CSS styles.
 
-## 🚀 Running Locally
+layout.js  
+Main layout of the Next.js application.
+
+page.js  
+Main page of the application.
+
+components
+
+Header.js  
+Application header.
+
+Legend.js  
+Available, Booked, and Sold status filters.
+
+FilterPanel.js  
+Square feet and maximum cost filters.
+
+PlotMap.js  
+Real estate map, plot overlays, zoom, pan, and plot information.
+
+data
+
+plotsData.js  
+Contains the plot data and filter presets.
+
+public
+
+layout-map.jpg  
+Real estate layout map image.
+
+next.config.mjs  
+Next.js configuration file.
+
+package.json  
+Project dependencies and scripts.
+
+README.md  
+Project documentation.
+
+## Technologies
+
+Next.js
+
+React.js
+
+JavaScript
+
+Tailwind CSS
+
+HTML
+
+CSS
+
+SVG
+
+## Run the Project
+
+Install the dependencies:
 
 ```bash
-# 1. Install dependencies
 npm install
+```
 
-# 2. Run development server
+Start the project:
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open:
 
-To build for production:
-```bash
-npm run build
-npm run start
-```
+http://localhost:3000
