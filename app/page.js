@@ -1,165 +1,137 @@
 "use client";
 
-import { useState } from "react";
-import plots from "../data/plots";
-
-import PlotGrid from "../components/PlotGrid";
-import FilterPanel from "../components/FilterPanel";
+import { useState, useMemo } from "react";
+import plots, { SQFT_FILTER_PRESETS, MAX_COST_DEFAULT } from "../data/plotsData";
+import Header from "../components/Header";
 import Legend from "../components/Legend";
-import PlotModal from "../components/PlotModal";
+import PlotMap from "../components/PlotMap";
+import FilterPanel from "../components/FilterPanel";
 
 export default function Home() {
-  // Filter states
-  const [status, setStatus] = useState("All");
-  const [size, setSize] = useState("All");
-  const [cost, setCost] = useState("All");
+  // State for filter choices
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [maxCost, setMaxCost] = useState(MAX_COST_DEFAULT);
 
-  // Selected plot for modal view (click/tap)
-  const [selectedPlot, setSelectedPlot] = useState(null);
+  // Popup filter modal visibility
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Filter the plots based on active filter choices
-  const filteredPlots = plots.filter((plot) => {
-    // 1. Status Filter
-    if (status !== "All" && plot.status.toLowerCase() !== status.toLowerCase()) {
-      return false;
-    }
+  // Toggle status filter
+  const handleToggleStatus = (statusToToggle) => {
+    setSelectedStatuses((prev) =>
+      prev.includes(statusToToggle)
+        ? prev.filter((s) => s !== statusToToggle)
+        : [...prev, statusToToggle]
+    );
+  };
 
-    // 2. Size Filter
-    if (size !== "All" && plot.size !== Number(size)) {
-      return false;
-    }
+  // Filter plots based on active criteria
+  const filteredPlots = useMemo(() => {
+    return plots.filter((plot) => {
+      // 1. Status Filter
+      if (selectedStatuses.length > 0 && !selectedStatuses.includes(plot.status?.toLowerCase())) {
+        return false;
+      }
 
-    // 3. Total Cost Filter
-    if (cost === "low" && plot.totalCost >= 3500000) {
-      return false; // Below 35 Lakhs
-    }
+      // 2. Square Feet Preset Filter
+      if (selectedSize) {
+        const preset = SQFT_FILTER_PRESETS.find((p) => p.value === selectedSize);
+        if (preset && plot.size > preset.max) {
+          return false;
+        }
+      }
 
-    if (
-      cost === "medium" &&
-      (plot.totalCost < 3500000 || plot.totalCost > 5000000)
-    ) {
-      return false; // Between 35L and 50L
-    }
+      // 3. Max Cost Filter
+      if (plot.totalCost > maxCost) {
+        return false;
+      }
 
-    if (cost === "high" && plot.totalCost <= 5000000) {
-      return false; // Above 50 Lakhs
-    }
+      return true;
+    });
+  }, [selectedStatuses, selectedSize, maxCost]);
 
-    return true;
-  });
+  // Set of plot IDs matching the filter
+  const filteredPlotIds = useMemo(() => {
+    return new Set(filteredPlots.map((p) => p.id));
+  }, [filteredPlots]);
 
-  // Calculate status counts for the legend
-  const statusCounts = plots.reduce((acc, plot) => {
-    acc[plot.status] = (acc[plot.status] || 0) + 1;
-    return acc;
-  }, {});
+  // Status counts for legend badges
+  const statusCounts = useMemo(() => {
+    return {
+      total: plots.length,
+      available: plots.filter((p) => p.status === "available").length,
+      booked: plots.filter((p) => p.status === "booked").length,
+      sold: plots.filter((p) => p.status === "sold").length,
+    };
+  }, []);
 
-  // Reset all filters to default
+  // Check if any filter is active
+  const hasActiveFilters =
+    selectedStatuses.length > 0 || selectedSize !== null || maxCost < MAX_COST_DEFAULT;
+
+  // Reset all filters
   const resetFilters = () => {
-    setStatus("All");
-    setSize("All");
-    setCost("All");
+    setSelectedStatuses([]);
+    setSelectedSize(null);
+    setMaxCost(MAX_COST_DEFAULT);
   };
 
   return (
-    <main className="min-h-screen bg-slate-100 pb-16">
-      {/* Header Banner */}
-      <header className="bg-slate-900 text-white shadow-md">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 text-center sm:text-left sm:flex sm:items-center sm:justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20 mb-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Residential Gated Community Layout
-            </div>
-            <h1 className="text-2xl font-extrabold tracking-tight sm:text-4xl text-white">
-              Greenfield Residential Layout
-            </h1>
-            <p className="mt-1 text-sm text-slate-400 max-w-2xl">
-              Explore plots in an interactive grid. Hover over any plot for quick specs or click to see full details.
-            </p>
-          </div>
-
-          {/* Quick Stats overview */}
-          <div className="mt-4 sm:mt-0 flex justify-center sm:justify-end gap-3 text-center">
-            <div className="rounded-xl bg-slate-800/80 border border-slate-700/60 px-4 py-2">
-              <div className="text-xl font-bold text-white">{plots.length}</div>
-              <div className="text-[11px] font-medium text-slate-400">Total Plots</div>
-            </div>
-            <div className="rounded-xl bg-emerald-950/40 border border-emerald-700/40 px-4 py-2">
-              <div className="text-xl font-bold text-emerald-400">
-                {statusCounts.Available || 0}
-              </div>
-              <div className="text-[11px] font-medium text-emerald-300">Available</div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans">
+      {/* Header Component */}
+      <Header />
 
       {/* Main Content Area */}
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-        {/* Filters */}
-        <FilterPanel
-          status={status}
-          setStatus={setStatus}
-          size={size}
-          setSize={setSize}
-          cost={cost}
-          setCost={setCost}
-          resetFilters={resetFilters}
+      <main className="max-w-7xl w-full mx-auto px-4 py-3 space-y-3 flex-1">
+        {/* Legend Component */}
+        <Legend
+          statusCounts={statusCounts}
+          selectedStatuses={selectedStatuses}
+          onToggleStatus={handleToggleStatus}
         />
 
-        {/* Legend */}
-        <Legend counts={statusCounts} />
-
-        {/* Results Counter & Active Filter Tags */}
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
-          <p className="text-sm font-semibold text-slate-700">
-            Showing <span className="text-blue-600 font-bold">{filteredPlots.length}</span> of {plots.length} plots
-          </p>
-
-          {(status !== "All" || size !== "All" || cost !== "All") && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500">Active filters:</span>
-              {status !== "All" && (
-                <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
-                  {status}
-                </span>
-              )}
-              {size !== "All" && (
-                <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
-                  {size} sq.ft
-                </span>
-              )}
-              {cost !== "All" && (
-                <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
-                  {cost === "low" ? "< 35L" : cost === "medium" ? "35L-50L" : "> 50L"}
-                </span>
-              )}
+        {/* Blueprint Layout Map with Filter directly on the Image */}
+        <div className="w-full">
+          <PlotMap allPlots={plots} filteredPlotIds={filteredPlotIds}>
+            {/* Filter Popup Card or Open Button placed directly ON the image */}
+            {isFilterOpen ? (
+              <div className="max-w-[calc(100vw-1.5rem)]">
+                <FilterPanel
+                  selectedSize={selectedSize}
+                  onSelectSize={setSelectedSize}
+                  maxCost={maxCost}
+                  onCostChange={setMaxCost}
+                  onReset={resetFilters}
+                  onClose={() => setIsFilterOpen(false)}
+                  matchingCount={filteredPlots.length}
+                  totalCount={plots.length}
+                />
+              </div>
+            ) : (
               <button
-                onClick={resetFilters}
-                className="text-xs font-semibold text-rose-600 hover:underline ml-1"
+                type="button"
+                onClick={() => setIsFilterOpen(true)}
+                style={{ border: "none", outline: "none" }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-gray-100 text-xs font-medium text-gray-700 cursor-pointer shadow-md border-0 outline-none"
+                title="Open Filters"
               >
-                Clear
+                {/* Clean standard filter icon */}
+                <svg className="w-3.5 h-3.5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fillRule="evenodd"
+                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>Filter</span>
+                {hasActiveFilters && (
+                  <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                )}
               </button>
-            </div>
-          )}
+            )}
+          </PlotMap>
         </div>
-
-        {/* Plots Grid */}
-        <PlotGrid
-          plots={filteredPlots}
-          onSelectPlot={(plot) => setSelectedPlot(plot)}
-          onResetFilters={resetFilters}
-        />
-      </div>
-
-      {/* Plot Details Modal (for mobile tap / desktop click) */}
-      {selectedPlot && (
-        <PlotModal
-          plot={selectedPlot}
-          onClose={() => setSelectedPlot(null)}
-        />
-      )}
-    </main>
+      </main>
+    </div>
   );
 }

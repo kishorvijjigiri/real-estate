@@ -1,128 +1,79 @@
-# Real Estate Plot Layout Web Application
+# Real Estate Plot Layout
 
-A responsive, modern web application built using **Next.js** and **Tailwind CSS** that showcases an interactive real estate plot layout.
+A responsive web application built with **Next.js** and **Tailwind CSS** that showcases an interactive real estate plot blueprint layout with real-time status tracking and a floating filter card.
 
----
-
-## 🌟 Key Features
-
-1. **Responsive Plot Grid Layout**:
-   - Displays plots in a structured, responsive grid (2 columns on mobile, 3-4 on tablet, 6 on desktop).
-   - Realistic colony/gated community dummy layout dataset with 36 plots.
-
-2. **Visually Distinguishable Statuses**:
-   - 🟢 **Available** (Emerald Green) – Ready for immediate booking.
-   - 🟡 **Booked** (Amber/Yellow) – Reserved by a customer.
-   - 🔴 **Sold** (Rose/Red) – Sold out.
-
-3. **Hover Information Tooltip (Desktop)**:
-   - Hovering over any plot card displays an interactive tooltip with details:
-     - Plot Number
-     - Status with live indicator
-     - Dimensions (e.g., `30 x 40 ft`)
-     - Area in sq.ft (e.g., `1,200 sq.ft`)
-     - Facing Direction (e.g., East, North, West, South)
-     - Road Width (e.g., `40 ft Main Road`)
-     - Rate per sq.ft (e.g., `₹2,800/sq.ft`)
-     - Total Cost formatted in Indian Rupees (e.g., `₹33,60,000`)
-
-4. **Click / Tap Plot Details Modal (Mobile & Desktop)**:
-   - On mobile touch devices where hover is unavailable (as well as on desktop click), clicking a plot opens a clean details modal with an enquiry button.
-
-5. **Status Legend**:
-   - Displays color indicators along with live counts for Available, Booked, and Sold plots.
-
-6. **Interactive Filters**:
-   - **Status Filter**: View All, Available only, Booked only, or Sold only.
-   - **Plot Size Filter**: Filter by exact plot size (1,000 sq.ft, 1,200 sq.ft, 1,500 sq.ft, 1,800 sq.ft, 2,400 sq.ft).
-   - **Total Cost Filter**: Filter by budget (Under ₹35 Lakhs, ₹35L - ₹50L, Above ₹50 Lakhs).
-   - **Reset Filters**: One-click button to reset all filters.
-
-7. **Clean & Fresher-Friendly Code**:
-   - Pure JavaScript (`.js` files, no TypeScript complexity).
-   - Standard React `useState` hooks.
-   - Modular, reusable components with straightforward Tailwind CSS utility classes.
-   - Zero external libraries or heavy state managers.
+Live Reference: [https://real-estate-layout-coral.vercel.app/](https://real-estate-layout-coral.vercel.app/)
 
 ---
 
-## 📁 Project Structure
+## 📌 Features
+
+1. **Interactive Blueprint Layout Map**:
+   - Blueprint layout map image with SVG plot overlays mapped to exact geographical coordinates.
+   - Zoom in, zoom out, and desktop/touch drag-to-pan capabilities.
+   - Plots filtered out are dimmed smoothly to highlight matching plots.
+
+2. **Status Color Filters**:
+   - 🟢 **Available**: Green button (`bg-green-600`) with real-time count.
+   - 🟡 **Booked**: Amber/Orange button (`bg-amber-500`) with real-time count.
+   - 🔴 **Sold**: Red button (`bg-red-600`) with real-time count.
+   - Centered above the map with clean solid backgrounds and white text.
+
+3. **Compact Hover Information Card**:
+   - Hovering on any plot shows a clean rectangular card (zero border-radius) with:
+     - `Plot : {number}`
+     - Status Badge
+     - `Total Sq Ft: {size}`
+     - `Rate: ₹{rate}` (without `/sq.ft`)
+     - `Total Cost: ₹{cost}`
+
+4. **Floating Filter Card**:
+   - Clicking the floating **Filter** button opens the filter card:
+     - **Square Feet**: 4 preset buttons (`0 - 540.00`, `≤ 1040.00`, `≤ 1540.00`, `≤ 2040.00`).
+     - **Max Cost**: Budget range slider with formatted markers (₹30 L, ₹80 L, ₹1.4 Cr).
+     - **Matching Counter**: Live display of matching plots (`X / 218`).
+     - **Reset & Close**: Quick reset and close buttons.
+
+---
+
+## 📁 Modular Project Structure
 
 ```text
 real-estate-layout/
 ├── app/
-│   ├── globals.css          # Tailwind CSS styles
-│   ├── layout.js            # Root layout and metadata
-│   └── page.js              # Main page with state & filter logic
+│   ├── globals.css          # Minimal Tailwind CSS setup
+│   ├── layout.js            # Root layout
+│   └── page.js              # Main dashboard page
 ├── components/
-│   ├── FilterPanel.js       # Filter controls (Status, Size, Cost, Reset)
-│   ├── Legend.js            # Status indicators & counts
-│   ├── PlotCard.js          # Individual plot card with hover tooltip
-│   ├── PlotGrid.js          # Responsive grid container with empty state
-│   └── PlotModal.js         # Mobile-friendly details popup modal
+│   ├── Header.js            # Top header component
+│   ├── Legend.js            # Centered solid status filter buttons
+│   ├── FilterPanel.js       # Floating filter popup card (4 sqft presets, cost slider)
+│   └── PlotMap.js           # Blueprint layout map with SVG overlays, zoom & hover card
 ├── data/
-│   ├── plots.js             # Static plot dataset (36 plots)
-│   └── plotsData.js         # Backward compatibility export
+│   └── plotsData.js         # Single dataset file with 218 plots and presets
+├── public/
+│   └── layout-map.jpg       # Blueprint layout map image
+├── next.config.mjs          # JavaScript Next.js configuration
 ├── package.json
 └── README.md
 ```
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Running Locally
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
-- npm (comes bundled with Node.js)
+```bash
+# 1. Install dependencies
+npm install
 
-### Steps
+# 2. Run development server
+npm run dev
+```
 
-1. **Clone or navigate to the project directory**:
-   ```bash
-   cd real-estate-layout
-   ```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in your browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-5. **Build for production** (optional):
-   ```bash
-   npm run build
-   npm run start
-   ```
-
----
-
-## 📤 How to Push to GitHub
-
-If you want to upload this project to your GitHub account:
-
-1. Create a new, empty repository on [GitHub](https://github.com/new) (e.g., named `real-estate-layout`).
-2. Open your terminal in this project folder and run:
-   ```bash
-   git add .
-   git commit -m "feat: complete real estate plot layout application"
-   git branch -M main
-   git remote add origin https://github.com/<YOUR-USERNAME>/real-estate-layout.git
-   git push -u origin main
-   ```
-
-*(Replace `<YOUR-USERNAME>` with your GitHub username).*
-
----
-
-## 🛠️ Tech Stack
-- **Framework**: Next.js 16 (App Router)
-- **Library**: React 19
-- **Styling**: Tailwind CSS
-- **Language**: JavaScript (ES6+)
+To build for production:
+```bash
+npm run build
+npm run start
+```
