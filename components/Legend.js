@@ -1,6 +1,6 @@
 "use client";
 
-// Legend component for status filter buttons (borderless solid color buttons with white text)
+// Legend component for status filter buttonsS
 export default function Legend({ statusCounts, selectedStatuses = [], onToggleStatus }) {
   const isStatusActive = (statusToCheck) => {
     return selectedStatuses.length === 0 || selectedStatuses.includes(statusToCheck);
@@ -8,7 +8,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
 
   return (
     <div className="flex items-center justify-center gap-3 flex-wrap">
-      {/* Available Button - Green, completely borderless */}
+      {/* Available Button - Green*/}
       <button
         type="button"
         onClick={() => onToggleStatus("available")}
@@ -19,7 +19,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
         Available ({statusCounts.available})
       </button>
 
-      {/* Booked Button - Amber / Orange, completely borderless */}
+      {/* Booked Button - Orange */}
       <button
         type="button"
         onClick={() => onToggleStatus("booked")}
@@ -30,7 +30,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
         Booked ({statusCounts.booked})
       </button>
 
-      {/* Sold Button - Red, completely borderless */}
+      {/* Sold Button - Red */}
       <button
         type="button"
         onClick={() => onToggleStatus("sold")}

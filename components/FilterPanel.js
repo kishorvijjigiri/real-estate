@@ -32,7 +32,6 @@ export default function FilterPanel({
       onTouchStart={(e) => e.stopPropagation()}
       className="w-72 max-w-[calc(100vw-1.5rem)] rounded bg-white p-4 text-sm text-gray-900"
     >
-      {/* Header */}
       <div className="mb-3 flex items-center justify-between">
         <span className="stext-gray-900">Filters</span>
         <div className="flex items-center gap-1">
@@ -58,7 +57,6 @@ export default function FilterPanel({
         </div>
       </div>
 
-      {/* Square Feet: 4 presets in 2x2 grid */}
       <div className="mb-3">
         <div className="mb-1.5 flex items-center justify-between">
           <label className="text-gray-900">
@@ -88,7 +86,7 @@ export default function FilterPanel({
         </div>
       </div>
 
-      {/* Max Cost slider */}
+      {/* Cost Range slider */}
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between text-xs">
           <span >Max Cost:</span>

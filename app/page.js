@@ -81,7 +81,6 @@ export default function Home() {
       {/* Header Component */}
       <Header />
 
-      {/* Main Content Area */}
       <main className="max-w-7xl w-full mx-auto px-4 py-3 space-y-3 flex-1">
         {/* Legend Component */}
         <Legend
@@ -90,10 +89,10 @@ export default function Home() {
           onToggleStatus={handleToggleStatus}
         />
 
-        {/* Blueprint Layout Map with Filter directly on the Image */}
+        {/* Blueprint Layout Map with Filter */}
         <div className="w-full">
           <PlotMap allPlots={plots} filteredPlotIds={filteredPlotIds}>
-            {/* Filter Popup Card or Open Button placed directly ON the image */}
+            {/* Filter Panel */}
             {isFilterOpen ? (
               <div className="max-w-[calc(100vw-1.5rem)]">
                 <FilterPanel
@@ -111,10 +110,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setIsFilterOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-gray-100 text-xs font-medium text-gray-700 cursor-pointer shadow-md border-0 outline-none"
-              
-              >
-                
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-gray-100 text-xs font-medium text-gray-700 cursor-pointer shadow-md border-0 outline-none">
                 <span>Filter</span>
                 {hasActiveFilters && (
                   <span className="w-2 h-2 rounded-full bg-blue-600"></span>

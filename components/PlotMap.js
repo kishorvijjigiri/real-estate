@@ -86,40 +86,33 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
     }
 
     const s = plot.status?.toLowerCase();
-    // 1. Available -> Green
+    // 1. Available - Green
     if (s === "available") {
       return {
         fill: "rgba(34, 197, 94, 0.8)",
-       
-      
         textColor: "#ffffff",
       };
     }
-    // 2. Booked  Orange
+    // 2. Booked -Orange
     if (s === "booked") {
       return {
         fill: "rgba(245, 158, 11, 0.85)",
-       
-      
         textColor: "#ffffff",
       };
     }
-    // 3. Sold -> Red
+    // 3. Sold - Red
     return {
       fill: "rgba(239, 68, 68, 0.8)",
-      
-    
       textColor: "#ffffff",
     };
   };
 
   return (
-    // Map container - borderless, fits image naturally
+    // Map container
     <div
       className={`relative w-full max-w-[1024px] mx-auto aspect-[1024/545] overflow-hidden select-none border-0 ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
-      style={{ border: "none", outline: "none", boxShadow: "none" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -143,7 +136,7 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
         }}
       >
         <div className="relative w-full h-full border-0">
-          {/* Blueprint background map image - borderless */}
+          {/* Blueprint background map image */}
           <img
             src="/layout-map.jpg"
             alt="Real Estate Plot Layout"
@@ -202,12 +195,12 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
         </div>
       </div>
 
-      {/* Filter Button / Card placed directly ON the image */}
+      {/* Filter Button / Card */}
       <div className="absolute top-3 left-3 z-20 pointer-events-auto">
         {children}
       </div>
 
-      {/* Hover Tooltip Card (Zero border radius) */}
+      {/* Hover Tooltip Card  */}
       {hoveredPlot && tooltipPos && (
         <div
           style={{
@@ -221,7 +214,7 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
           }}
           className="pointer-events-none fixed z-50 w-56 rounded-none bg-white p-2.5 text-xs text-gray-900"
         >
-          {/* Header row: Plot : {number} and Status */}
+          {/* Header row: Plot:  number and Status */}
           <div className="mb-1.5 flex items-center justify-between">
             <span className="text-gray-900">
               Plot : {hoveredPlot.number}
@@ -264,7 +257,7 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
         </div>
       )}
 
-      {/* Basic Zoom Controls placed directly ON the image (Bottom-Right) */}
+      {/* Basic Zoom Controls */}
       <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-white p-1 border-0">
         <button
           type="button"
