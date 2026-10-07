@@ -12,8 +12,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
       <button
         type="button"
         onClick={() => onToggleStatus("available")}
-        style={{ border: "none", outline: "none" }}
-        className={`px-3 py-1.5 text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 cursor-pointer transition border-0 outline-none ${
+        className={`px-3 py-1.5 text-xs text-white bg-green-600 hover:bg-green-700 cursor-pointer ${
           isStatusActive("available") ? "opacity-100" : "opacity-40"
         }`}
       >
@@ -24,8 +23,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
       <button
         type="button"
         onClick={() => onToggleStatus("booked")}
-        style={{ border: "none", outline: "none" }}
-        className={`px-3 py-1.5 text-xs font-medium rounded text-white bg-amber-500 hover:bg-amber-600 cursor-pointer transition border-0 outline-none ${
+        className={`px-3 py-1.5 text-xs text-white bg-amber-500 hover:bg-amber-600 cursor-pointer ${
           isStatusActive("booked") ? "opacity-100" : "opacity-40"
         }`}
       >
@@ -36,8 +34,7 @@ export default function Legend({ statusCounts, selectedStatuses = [], onToggleSt
       <button
         type="button"
         onClick={() => onToggleStatus("sold")}
-        style={{ border: "none", outline: "none" }}
-        className={`px-3 py-1.5 text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 cursor-pointer transition border-0 outline-none ${
+        className={`px-3 py-1.5 text-xs  text-white bg-red-600 hover:bg-red-700 cursor-pointer ${
           isStatusActive("sold") ? "opacity-100" : "opacity-40"
         }`}
       >

@@ -30,18 +30,17 @@ export default function FilterPanel({
     <div
       onClick={(e) => e.stopPropagation()}
       onTouchStart={(e) => e.stopPropagation()}
-      className="w-72 max-w-[calc(100vw-1.5rem)] rounded border border-gray-300 bg-white p-4 text-sm text-gray-900 shadow-md"
+      className="w-72 max-w-[calc(100vw-1.5rem)] rounded bg-white p-4 text-sm text-gray-900"
     >
       {/* Header */}
-      <div className="mb-3 flex items-center justify-between border-b border-gray-200 pb-2">
-        <span className="font-semibold text-gray-900">Filters</span>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="stext-gray-900">Filters</span>
         <div className="flex items-center gap-1">
           {/* Reset button */}
           <button
             type="button"
             onClick={onReset}
-            className="cursor-pointer rounded border border-gray-300 bg-white px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100"
-            title="Reset Filters"
+            className="cursor-pointer rounded  bg-red-800 text-white px-2 py-0.5 text-xs "
           >
             Reset
           </button>
@@ -51,8 +50,7 @@ export default function FilterPanel({
             <button
               type="button"
               onClick={onClose}
-              className="cursor-pointer rounded border border-gray-300 bg-white px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100"
-              title="Close Filters"
+              className="cursor-pointer px-2 py-0.5 text-xs "
             >
               ✕
             </button>
@@ -63,18 +61,10 @@ export default function FilterPanel({
       {/* Square Feet: 4 presets in 2x2 grid */}
       <div className="mb-3">
         <div className="mb-1.5 flex items-center justify-between">
-          <label className="text-xs font-medium text-gray-600">
+          <label className="text-gray-900">
             Square Feet:
           </label>
-          {selectedSize && (
-            <button
-              type="button"
-              onClick={() => onSelectSize(null)}
-              className="cursor-pointer text-xs text-blue-600 hover:underline"
-            >
-              Clear
-            </button>
-          )}
+
         </div>
 
         <div className="grid grid-cols-2 gap-1.5">
@@ -87,8 +77,8 @@ export default function FilterPanel({
                 onClick={() => onSelectSize(isSelected ? null : preset.value)}
                 className={`p-1.5 border text-xs font-mono text-center rounded cursor-pointer ${
                   isSelected
-                    ? "bg-blue-50 border-blue-500 text-blue-700 font-semibold"
-                    : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                    ? "bg-blue-100  text-blue-800"
+                    : "bg-white   text-gray-700 "
                 }`}
               >
                 {preset.label}
@@ -101,10 +91,8 @@ export default function FilterPanel({
       {/* Max Cost slider */}
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between text-xs">
-          <span className="font-medium text-gray-600">Max Cost:</span>
-          <span className="font-mono font-semibold text-gray-900">
-            {formatCost(maxCost)}
-          </span>
+          <span >Max Cost:</span>
+          <span >{formatCost(maxCost)}</span>
         </div>
         <input
           type="range"
@@ -113,9 +101,9 @@ export default function FilterPanel({
           step={250000}
           value={maxCost}
           onChange={(e) => onCostChange(Number(e.target.value))}
-          className="h-1.5 w-full cursor-pointer rounded bg-gray-200 accent-blue-600"
+          className="h-1.5 w-full cursor-pointer rounded  accent-blue-600"
         />
-        <div className="mt-1 flex justify-between font-mono text-[11px] text-gray-400">
+        <div className="mt-1 flex justify-between  text-[11px] ">
           <span>₹30 L</span>
           <span>₹80 L</span>
           <span>₹1.4 Cr</span>
@@ -123,7 +111,7 @@ export default function FilterPanel({
       </div>
 
       {/* Matching count footer */}
-      <div className="flex items-center justify-between border-t border-gray-200 pt-2 text-xs text-gray-500">
+      <div className="flex items-center justify-between pt-2 text-xs ">
         <span>Matching:</span>
         <span className="font-mono font-semibold text-gray-800">
           {matchingCount} / {totalCount}

@@ -77,7 +77,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Header Component */}
       <Header />
 
@@ -111,18 +111,10 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setIsFilterOpen(true)}
-                style={{ border: "none", outline: "none" }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-gray-100 text-xs font-medium text-gray-700 cursor-pointer shadow-md border-0 outline-none"
-                title="Open Filters"
+              
               >
-                {/* Clean standard filter icon */}
-                <svg className="w-3.5 h-3.5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                
                 <span>Filter</span>
                 {hasActiveFilters && (
                   <span className="w-2 h-2 rounded-full bg-blue-600"></span>

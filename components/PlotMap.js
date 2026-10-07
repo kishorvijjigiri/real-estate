@@ -80,9 +80,7 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
   const getPlotColor = (plot, isMatched) => {
     if (!isMatched) {
       return {
-        fill: "rgba(209, 213, 219, 0.3)",
-        stroke: "rgba(156, 163, 175, 0.4)",
-        opacity: 0.3,
+        fill: "rgba(167, 169, 173, 0.3)",
         textColor: "#9ca3af",
       };
     }
@@ -92,25 +90,25 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
     if (s === "available") {
       return {
         fill: "rgba(34, 197, 94, 0.8)",
-        stroke: "#15803d",
-        opacity: 0.9,
+       
+      
         textColor: "#ffffff",
       };
     }
-    // 2. Booked -> Amber / Orange
+    // 2. Booked  Orange
     if (s === "booked") {
       return {
         fill: "rgba(245, 158, 11, 0.85)",
-        stroke: "#b45309",
-        opacity: 0.9,
+       
+      
         textColor: "#ffffff",
       };
     }
     // 3. Sold -> Red
     return {
       fill: "rgba(239, 68, 68, 0.8)",
-      stroke: "#b91c1c",
-      opacity: 0.9,
+      
+    
       textColor: "#ffffff",
     };
   };
@@ -150,7 +148,6 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
             src="/layout-map.jpg"
             alt="Real Estate Plot Layout"
             className="w-full h-full block object-fill pointer-events-none border-0"
-            style={{ border: "none", outline: "none" }}
             draggable={false}
           />
 
@@ -158,7 +155,7 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
           <svg
             viewBox="0 0 1024 545"
             className="absolute inset-0 h-full w-full pointer-events-auto border-0"
-            style={{ border: "none", outline: "none" }}
+
             preserveAspectRatio="none"
           >
             {allPlots.map((plot) => {
@@ -187,22 +184,15 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
                     width={width}
                     height={height}
                     fill={style.fill}
-                    stroke={isHovered ? "#000000" : style.stroke}
-                    strokeWidth={isHovered ? "2" : "1"}
-                    opacity={style.opacity}
-                  />
+                     />
 
                   {/* Centered plot number text */}
                   <text
                     x={x + width / 2}
                     y={y + height / 2}
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fontSize={width < 18 ? "6.5" : "7.5"}
+                    fontSize="7.5"
                     fill={isMatched ? style.textColor : "#9ca3af"}
-                    fontWeight="700"
-                    className="pointer-events-none select-none font-mono"
-                  >
+                   >
                     {plot.number}
                   </text>
                 </g>
@@ -227,23 +217,23 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
               tooltipPos.y < 160
                 ? "translate(-50%, 12px)"
                 : "translate(-50%, -100%) translateY(-12px)",
-            borderRadius: "0px",
+            
           }}
-          className="pointer-events-none fixed z-50 w-56 rounded-none border border-gray-300 bg-white p-2.5 text-xs text-gray-900 shadow-md"
+          className="pointer-events-none fixed z-50 w-56 rounded-none bg-white p-2.5 text-xs text-gray-900"
         >
           {/* Header row: Plot : {number} and Status */}
-          <div className="mb-1.5 flex items-center justify-between border-b border-gray-200 pb-1">
-            <span className="font-semibold text-gray-900">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-gray-900">
               Plot : {hoveredPlot.number}
             </span>
             <span
-              style={{ borderRadius: "0px" }}
-              className={`rounded-none px-1.5 py-0.5 text-[10px] font-medium capitalize ${
+             
+              className={` text-xs capitalize ${
                 hoveredPlot.status === "available"
-                  ? "bg-green-100 text-green-800"
+                  ? " text-green-800"
                   : hoveredPlot.status === "booked"
-                  ? "bg-amber-100 text-amber-800"
-                  : "bg-red-100 text-red-800"
+                  ? " text-amber-800"
+                  : " text-red-800"
               }`}
             >
               {hoveredPlot.status}
@@ -253,20 +243,20 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
           {/* Details rows: Total Sq Ft, Rate, and Total Cost */}
           <div className="space-y-1 text-xs">
             <div className="flex justify-between">
-              <span className="text-gray-500">Total Sq Ft:</span>
+              <span className="text-gray-800">Total Sq Ft:</span>
               <span className="font-mono font-medium text-gray-800">
                 {Number(hoveredPlot.size).toLocaleString("en-IN")}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Rate:</span>
-              <span className="font-mono font-medium text-gray-800">
+              <span className="text-gray-800">Rate:</span>
+              <span className=" font-medium text-gray-800">
                 ₹{hoveredPlot.rate.toLocaleString("en-IN")}
               </span>
             </div>
-            <div className="flex justify-between border-t border-gray-100 pt-1 font-semibold">
-              <span className="text-gray-600">Total Cost:</span>
-              <span className="font-mono font-bold text-gray-900">
+            <div className="flex justify-between">
+              <span className="text-gray-900">Total Cost:</span>
+              <span className=" font-bold text-gray-900">
                 {formatCost(hoveredPlot.totalCost || hoveredPlot.size * hoveredPlot.rate)}
               </span>
             </div>
@@ -275,24 +265,18 @@ export default function PlotMap({ allPlots = [], filteredPlotIds = new Set(), ch
       )}
 
       {/* Basic Zoom Controls placed directly ON the image (Bottom-Right) */}
-      <div className="absolute bottom-3 right-3 z-20 flex items-center gap-1 rounded bg-white p-1 text-gray-700 shadow-md pointer-events-auto border-0">
+      <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-white p-1 border-0">
         <button
           type="button"
           onClick={handleZoomOut}
-          style={{ border: "none", outline: "none" }}
-          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded text-base font-bold text-gray-700 hover:bg-gray-100 border-0 outline-none"
-          title="Zoom Out"
-          aria-label="Zoom Out"
+          className="h-7 w-7 cursor-pointer items-center justify-center text-gray-700"
         >
           −
         </button>
         <button
           type="button"
           onClick={handleZoomIn}
-          style={{ border: "none", outline: "none" }}
-          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded text-base font-bold text-gray-700 hover:bg-gray-100 border-0 outline-none"
-          title="Zoom In"
-          aria-label="Zoom In"
+          className="h-7 w-7 cursor-pointer items-center justify-center text-gray-700"
         >
           +
         </button>
